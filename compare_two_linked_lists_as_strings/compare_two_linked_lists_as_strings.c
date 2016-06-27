@@ -1,6 +1,6 @@
 /*
  * The following code is for the following post from geeksforgeeks:-
- * http://www.geeksforgeeks.org/compare-two-strings-represented-as-linked-lists/ 
+ * http://www.geeksforgeeks.org/compare-two-strings-represented-as-linked-lists/
  */
 
 #include<stdio.h>
@@ -12,14 +12,14 @@ struct node {
     struct node* next;
 };
 
-struct node* makeNode (char ch) 
+struct node* makeNode (char ch)
 {
     struct node* new_node = (struct node*)malloc(sizeof(struct node));
 
     if (!new_node) {
         return(NULL);
     }
-    
+
     new_node->data = ch;
     new_node->next = NULL;
 
@@ -71,7 +71,7 @@ int compare_strings (struct node* s1, struct node* s2)
 
     if (s1 && !s2) {
         return(1);
-    } 
+    }
 
     if (!s1 && s2) {
         return(-1);
@@ -85,7 +85,7 @@ int get_length (struct node* string)
     while (string) {
         ++length;
         string = string->next;
-    }   
+    }
 
     return(length);
 }
@@ -95,7 +95,7 @@ char* get_string (struct node* string)
     int length = get_length(string);
     int i;
     char* ch = (char*)malloc(sizeof(char) * (length+1));
-    
+
     if (!ch) {
         return(NULL);
     }
@@ -105,7 +105,7 @@ char* get_string (struct node* string)
     }
 
     memset(ch, 0, length+1);
-    
+
     i = 0;
     while (string) {
         ch[i] = string->data;
@@ -120,7 +120,7 @@ int main()
 {
     struct node* string1 = NULL;
     struct node* string2 = NULL;
-    int result; 
+    int result;
 
     push(&string1, 's');
     push(&string1, 'k');
@@ -133,15 +133,15 @@ int main()
     push(&string2, 'e');
     push(&string2, 'e');
     push(&string2, 'g');
- 
+
     result = compare_strings(string1, string2);
-    
+
     if (result > 0) {
         printf("The string %s comes before string %s\n", get_string(string2),
                get_string(string1));
     } else if (result < 0) {
         printf("The string %s comes before string %s\n", get_string(string1),
-               get_string(string2));      
+               get_string(string2));
     } else {
         printf("The string %s is same as string %s\n", get_string(string2),
                get_string(string1));
@@ -152,6 +152,6 @@ int main()
 
 /*
  * Output:-
- * gaurav@gaurav:~/Desktop/PRIVATE/Test/Test$ ./a.out 
+ * gaurav@gaurav:~/Desktop/PRIVATE/Test/Test$ ./a.out
  * The string geeks is same as string geeks
  */

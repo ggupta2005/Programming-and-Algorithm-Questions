@@ -1,10 +1,15 @@
+/*
+ * This porgram is based of the post :-
+ * http://www.geeksforgeeks.org/square-root-of-an-integer/
+ */
+
 import java.io.*;
 
 public class nearest_sqrt_of_number
 {
     /*
      * Constant to capture the return value in case
-     * user attempts to find the square root of a 
+     * user attempts to find the square root of a
      * negative number.
      */
     public static final long ILLEGAL = -1;
@@ -13,7 +18,7 @@ public class nearest_sqrt_of_number
      * The time complexity of finding the square root
      * of a positive number using this function is
      * O(sqrt(n)). In this function we linearly increase
-     * the value of intended square root unless the 
+     * the value of intended square root unless the
      * value of square of square root exceeds the number.
      * If a negative value is passed to this function, then
      * this function will return 'ILLEGAL' value.
@@ -21,7 +26,7 @@ public class nearest_sqrt_of_number
     public static long sqrt_v1 (long num)
     {
         long sqrt;
-        
+
         /*
          * If num is less than zero, then return an
          * illegal value
@@ -53,17 +58,17 @@ public class nearest_sqrt_of_number
          */
         if ((sqrt * sqrt) > num) {
             return(sqrt - 1);
-        } 
+        }
 
         return(sqrt);
-    } 
+    }
 
     /*
      * The time complexity of finding the square root
      * of a positive number using this function is
-     * O(log(n)). This uses binary search to find the 
-     * square root of the number. If a negative value is 
-     * passed to this function, then this function will 
+     * O(log(n)). This uses binary search to find the
+     * square root of the number. If a negative value is
+     * passed to this function, then this function will
      * return 'ILLEGAL' value.
      */
     public static long sqrt_v2 (long num)
@@ -94,31 +99,31 @@ public class nearest_sqrt_of_number
         high = num;
 
         /*
-         * Continue the while loop as long as low is 
+         * Continue the while loop as long as low is
          * less than or equal to high
          */
         while (low <= high) {
             /*
-             * The intended square root lies at the 
+             * The intended square root lies at the
              * mid point value of low and high.
              */
             sqrt = (low + high)/2;
-       
+
             /*
              * Compute the square of the square root
-             */ 
+             */
             square = sqrt * sqrt;
-       
+
             /*
              * If the square of the square is:-
-             * 1. Equal to the number, then we have found 
-             *    the square root so  break from the while 
+             * 1. Equal to the number, then we have found
+             *    the square root so  break from the while
              *    loop.
              * 2. Greater than the number, then square
              *    root lies between 'low' and 'sqrt - 1'
              * 3. Less than the number, then the square
              *    root lies between 'sqrt + 1' and 'high'
-             */ 
+             */
             if (square == num) {
                 break;
             } else if (square > num) {
@@ -133,11 +138,11 @@ public class nearest_sqrt_of_number
          * which is the average of 'low' and 'high'
          */
         sqrt = (low + high)/2;
- 
+
         return(sqrt);
     }
 
-    public static void main(String[] args) 
+    public static void main(String[] args)
     {
         /*
          * Test cases for finding the square root,

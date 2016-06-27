@@ -1,3 +1,8 @@
+/*
+ * This porgram is based of the post :-
+ * http://www.geeksforgeeks.org/square-root-of-an-integer/
+ */
+
 #include<stdio.h>
 #include<assert.h>
 
@@ -5,7 +10,7 @@
  * The time complexity of finding the square root
  * of a positive number using this function is
  * O(sqrt(n)). In this function we linearly increase
- * the value of intended square root unless the 
+ * the value of intended square root unless the
  * value of square of square root exceeds the number.
  */
 unsigned int sqrt_v1 (unsigned int num)
@@ -35,7 +40,7 @@ unsigned int sqrt_v1 (unsigned int num)
      */
     if ((sqrt * sqrt) > num) {
         return(sqrt - 1);
-    } 
+    }
 
     return(sqrt);
 }
@@ -43,7 +48,7 @@ unsigned int sqrt_v1 (unsigned int num)
 /*
  * The time complexity of finding the square root
  * of a positive number using this function is
- * O(log(n)). This uses binary search to find the 
+ * O(log(n)). This uses binary search to find the
  * square root of the number.
  */
 unsigned int sqrt_v2 (unsigned int num)
@@ -66,31 +71,31 @@ unsigned int sqrt_v2 (unsigned int num)
     high = num;
 
     /*
-     * Continue the while loop as long as low is 
+     * Continue the while loop as long as low is
      * less than or equal to high
      */
     while (low <= high) {
         /*
-         * The intended square root lies at the 
+         * The intended square root lies at the
          * mid point value of low and high.
          */
         sqrt = (low + high)/2;
-       
+
         /*
          * Compute the square of the square root
-         */ 
+         */
         square = sqrt * sqrt;
-       
+
         /*
          * If the square of the square is:-
-         * 1. Equal to the number, then we have found 
-         *    the square root so  break from the while 
+         * 1. Equal to the number, then we have found
+         *    the square root so  break from the while
          *    loop.
          * 2. Greater than the number, then square
          *    root lies between 'low' and 'sqrt - 1'
          * 3. Less than the number, then the square
          *    root lies between 'sqrt + 1' and 'high'
-         */ 
+         */
         if (square == num) {
             break;
         } else if (square > num) {
@@ -105,7 +110,7 @@ unsigned int sqrt_v2 (unsigned int num)
      * which is the average of 'low' and 'high'
      */
     sqrt = (low + high)/2;
- 
+
     return(sqrt);
 }
 
