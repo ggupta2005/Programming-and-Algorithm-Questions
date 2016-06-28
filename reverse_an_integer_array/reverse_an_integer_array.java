@@ -1,3 +1,7 @@
+/*
+ * The following program reverses an array
+ */
+
 import java.io.*;
 import java.util.*;
 
