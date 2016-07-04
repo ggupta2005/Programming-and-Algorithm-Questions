@@ -26,6 +26,8 @@ public class binary_tree_count_number_of_nodes
 {
     /*
      * This function recursively computes the number of nodes in a binary tree.
+     * The time complexity of this function is O(n) since we are visiting each
+     * node once.
      */
     public static int find_number_of_nodes_binary_tree (treenode root)
     {
