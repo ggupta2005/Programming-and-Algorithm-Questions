@@ -26,11 +26,7 @@ struct node* makeNode(int value)
 {
     struct node* data_node;
 
-    if ((value > 9) || (value < 0)) {
-        return(NULL);
-    }
-
-    data_node = (struct node *)malloc(sizeof(struct node*));
+    data_node = (struct node *)malloc(sizeof(struct node));
 
     /*
      * If the node allocated was NULL, then return null.
