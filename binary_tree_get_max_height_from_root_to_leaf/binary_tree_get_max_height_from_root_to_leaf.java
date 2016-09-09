@@ -1,7 +1,7 @@
 /*
  * This program finds the maximum length of path from the root node to
  * a leaf node in a binary tree (Also known as the height of the binary tree).
- * Look at this post for more details on the height of a binary tree:-
+ * Look at this post for more details on the maximum height of a binary tree:-
  * http://www.geeksforgeeks.org/write-a-c-program-to-find-the-maximum-depth-or-height-of-a-tree/
  */
 import java.io.*;
@@ -28,7 +28,7 @@ public class binary_tree_get_max_height_from_root_to_leaf
 {
     /*
      * This function returns the maximum length of a path from root node to a
-     * leaf node in a binary tree. This maximum length is defined as the number
+     * leaf node in a binary tree. This length is defined as the number
      * of nodes in a path from root to leaf node in terms of number of nodes.
      * The time complexity of this function is O(n) where 'n' is the number of
      * nodes in the binary tree.
