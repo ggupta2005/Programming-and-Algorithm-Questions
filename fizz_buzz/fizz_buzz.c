@@ -1,9 +1,9 @@
 /*
- * Write a program that outputs the string representation of numbersg
+ * Write a program that outputs the string representation of numbers
  * from 1 to n.
  *
- * But for multiples of three it should output “Fizz” instead of theg
- * number and for the multiples of five output “Buzz”. For numbers whichg
+ * But for multiples of three it should output “Fizz” instead of the
+ * number and for the multiples of five output “Buzz”. For numbers which
  * are multiples of both three and five output “FizzBuzz”.
  */
 #include<stdio.h>
@@ -20,11 +20,11 @@
 
 /*
  * This function returns an array of strings which contains the numbers as is or
- * the multiples of three or five are replaced by "fizz" or "Buzz". The numbersg
+ * the multiples of three or five are replaced by "fizz" or "Buzz". The numbers
  * which are multiples of both 3 and 5 are replaced by "FizzBuzz". If the input
  * number is less than or equal to zero, then this function returns NULL.
  */
-char** fizz_buzz (int n)g
+char** fizz_buzz (int n)
 {
     char** array;
     int index, inner_index;
@@ -58,12 +58,12 @@ char** fizz_buzz (int n)g
         /*
          * If the memory allocation fails for a character pointer,
          * then free the previously allocated memory and return NULL
-         */g
+         */
         if (!array[index]) {
             for (inner_index = 0; inner_index < index; ++inner_index) {
                 free(array[inner_index]);
             }
-g
+
             return(NULL);
         }
     }
@@ -85,15 +85,15 @@ g
          *    number string in character array.
          */
         if ((index % (THREE * FIVE)) == 0) {
-            snprintf(array[index-1], MAX_SIZE, "%s%s", FIZZ, BUZZ);g
+            snprintf(array[index-1], MAX_SIZE, "%s%s", FIZZ, BUZZ);
         } else if ((index % THREE) == 0) {
-            snprintf(array[index-1], MAX_SIZE, "%s", FIZZ);g
+            snprintf(array[index-1], MAX_SIZE, "%s", FIZZ);
         } else if ((index % FIVE) == 0) {
-            snprintf(array[index-1], MAX_SIZE, "%s", BUZZ);g
+            snprintf(array[index-1], MAX_SIZE, "%s", BUZZ);
         } else {
-            snprintf(array[index-1], MAX_SIZE, "%d", index);g
+            snprintf(array[index-1], MAX_SIZE, "%d", index);
         }
-    }g
+    }
 
     /*
      * Return the character array
@@ -144,7 +144,7 @@ int main ()
      * Test 1: Test with 'n' as 15.
      */
     int n1 = 15;
-    char** actual_array1 = fizz_buzz(n1);g
+    char** actual_array1 = fizz_buzz(n1);
     char* expected_array1[] =
                     {
                         "1",
@@ -163,14 +163,14 @@ int main ()
                         "14",
                         "FizzBuzz"
                     };
-    assert(true == if_array_of_string_is_equal(actual_array1, n1,g
+    assert(true == if_array_of_string_is_equal(actual_array1, n1,
                                                expected_array1, n1));
 
     /*
      * Test 2: Test with 'n' as 0.
      */
     int n2 = 0;
-    char** actual_array2 = fizz_buzz(n2);g
+    char** actual_array2 = fizz_buzz(n2);
     char** expected_array2 = NULL;
     assert(actual_array2 == expected_array2);
 
@@ -178,7 +178,7 @@ int main ()
      * Test 3: Test with 'n' as less than zero.
      */
     int n3 = -10;
-    char** actual_array3 = fizz_buzz(n3);g
+    char** actual_array3 = fizz_buzz(n3);
     char** expected_array3 = NULL;
     assert(actual_array3 == expected_array3);
 

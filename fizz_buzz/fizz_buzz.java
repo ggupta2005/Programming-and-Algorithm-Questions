@@ -1,15 +1,15 @@
 /*
- * Write a program that outputs the string representation of numbersg
+ * Write a program that outputs the string representation of numbers
  * from 1 to n.
  *
- * But for multiples of three it should output “Fizz” instead of theg
- * number and for the multiples of five output “Buzz”. For numbers whichg
+ * But for multiples of three it should output “Fizz” instead of the
+ * number and for the multiples of five output “Buzz”. For numbers which
  * are multiples of both three and five output “FizzBuzz”.
  */
 import java.io.*;
 import java.util.*;
 
-public class fizz_buzzg
+public class fizz_buzz
 {
     public static final int THREE = 3;
     public static final int FIVE = 5;
@@ -17,13 +17,13 @@ public class fizz_buzzg
     public static final String BUZZ = "Buzz";
 
     /*
-     * This function returns an array of strings which contains the numbersg
-     * as is or the multiples of three or five are replaced by "fizz" org
-     * "Buzz". The numbers which are multiples of both 3 and 5 are replacedg
-     * by "FizzBuzz". If the input number is less than or equal to zero,g
+     * This function returns an array of strings which contains the numbers
+     * as is or the multiples of three or five are replaced by "fizz" or
+     * "Buzz". The numbers which are multiples of both 3 and 5 are replaced
+     * by "FizzBuzz". If the input number is less than or equal to zero,
      * then this function returns NULL.
      */
-    public static String[] get_fizz_buzz (int n)g
+    public static String[] get_fizz_buzz (int n)
     {
         String[] array;
         int index, inner_index;
@@ -72,7 +72,7 @@ public class fizz_buzzg
             } else {
                 array[index - 1] = new String(Integer.toString(index));
             }
-        }g
+        }
 
         /*
          * Return the character array
@@ -81,10 +81,10 @@ public class fizz_buzzg
     }
     /*
      * This function checks if all the string array entries in the
-     * two arrays are equal. This functionreturns 'true' if the entriesg
+     * two arrays are equal. This functionreturns 'true' if the entries
      * are equal and false otherwise.
      */
-    public static boolean if_array_of_string_is_equal (String[]array1,g
+    public static boolean if_array_of_string_is_equal (String[]array1,
                                                        String[] array2)
     {
         int i;
@@ -93,13 +93,13 @@ public class fizz_buzzg
          * If lengths of the two string arrays is not legal or they
          * are not equal, then return 'false'.
          */
-        if ((array1.length <= 0) || (array2.length <= 0) ||g
+        if ((array1.length <= 0) || (array2.length <= 0) ||
             (array1.length != array2.length)) {
             return(false);
         }
 
         /*
-         * Iterate over all the array entriesg
+         * Iterate over all the array entries
          */
         for (i = 0; i < array1.length; ++i) {
 
@@ -123,7 +123,7 @@ public class fizz_buzzg
          * Test 1: Test with 'n' as 15.
          */
         String[] actual_array1 = get_fizz_buzz(15);
-        String[] expected_array1 =g
+        String[] expected_array1 =
                         {
                             "1",
                             "2",
@@ -141,14 +141,14 @@ public class fizz_buzzg
                             "14",
                             "FizzBuzz"
                         };
-        assert(true == if_array_of_string_is_equal(actual_array1,g
+        assert(true == if_array_of_string_is_equal(actual_array1,
                                                    expected_array1));
 
         /*
          * Test 2: Test with 'n' as 0.
          */
         int n2 = 0;
-        String[] actual_array2 = get_fizz_buzz(n2);g
+        String[] actual_array2 = get_fizz_buzz(n2);
         String[]  expected_array2 = null;
         assert(actual_array2 == expected_array2);
 
@@ -156,7 +156,7 @@ public class fizz_buzzg
          * Test 3: Test with 'n' as less than zero.
          */
         int n3 = -10;
-        String[] actual_array3 = get_fizz_buzz(n3);g
+        String[] actual_array3 = get_fizz_buzz(n3);
         String[] expected_array3 = null;
         assert(actual_array3 == expected_array3);
     }
