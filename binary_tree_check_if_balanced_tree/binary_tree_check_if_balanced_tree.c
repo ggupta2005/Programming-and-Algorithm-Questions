@@ -10,7 +10,6 @@
 #include<stdlib.h>
 #include<stdbool.h>
 #include<assert.h>
-#include<assert.h>
 
 /*
  * Structure definition for tree node
