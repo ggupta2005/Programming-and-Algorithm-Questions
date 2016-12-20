@@ -1,6 +1,8 @@
 /*
  * This program inserts lowercase case alphabets in a trie and searches for
- * the words or prefixes in the trie.
+ * the words or prefixes in the trie. For more information on trie and its
+ * implementation, please refer to the following link:-
+ * http://www.geeksforgeeks.org/trie-insert-and-search/
  */
 #include<stdio.h>
 #include<stdlib.h>
