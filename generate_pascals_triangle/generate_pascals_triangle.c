@@ -9,7 +9,10 @@
 
 /*
  * This function returns the 'num' rows of a Pascal's Triangle. If 'num'
- * less than or equal to zero, then this function returns NULL.
+ * less than or equal to zero, then this function returns NULL. The time
+ * complexity of this function is O(n^2), where 'n' is the number of rows
+ * in the Pascal's Triangle. The space complexity of this function is
+ * O(n^2), where 'n' is the number of rows in the Pascal's Triangle.
  */
 int** get_pascals_triangle (int num)
 {
@@ -122,7 +125,10 @@ int** get_pascals_triangle (int num)
 /*
  * This function checks if the two Pascal's Triangles of 'num' rows are
  * same or not. If the two Pascal's Triangle are same, then this function
- * returns 'true' otherwise this function returns 'false'.
+ * returns 'true' otherwise this function returns 'false'. The time
+ * complexity of this function is O(n^2), where 'n' is the number of rows
+ * in the Pascal's Triangle. The space complexity of this function is
+ * O(n^2), where 'n' is the number of rows in the Pascal's Triangle.
  */
 bool check_if_equal_pascals_triangles (int num, int exp[][num], int** act)
 {
