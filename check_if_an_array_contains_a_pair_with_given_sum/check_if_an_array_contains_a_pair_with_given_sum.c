@@ -85,20 +85,22 @@ void quicksort (int* array, int low, int high)
 }
 
 /*
- * This function returns 'true' if there exists a pair which when added together gives
- * the 'sum'. If no such pair exists this function returns 'false'. This function takes
- * the following approach to solve the problem:-
+ * This function returns 'true' if there exists a pair which when added
+ * together gives the 'sum'. If no such pair exists this function returns
+ * 'false'. This function takes the following approach to solve the problem:-
  * 1. First sort the array using some quick sort
- * 2. Walk the sorted array from left and right to check if some pair adds to 'sum'.
- *   a. If the sum of the left and right elements is less than sum, then increment left
- *      index so that we can get more closer to sum.
- *   b. If the sum of the left and right elements is greater than sum, then decrement right
- *      index so that we can get more closer to sum.
- *   c. If the sum of the left and right elements is equal to sum, then return 'true'.
+ * 2. Walk the sorted array from left and right to check if some pair adds
+ *    to 'sum'.
+ *   a. If the sum of the left and right elements is less than sum, then
+ *      increment left index so that we can get more closer to sum.
+ *   b. If the sum of the left and right elements is greater than sum, then
+ *      decrement right index so that we can get more closer to sum.
+ *   c. If the sum of the left and right elements is equal to sum, then
+ *      return 'true'.
  * 3. IF the 'sum' is not found, then return 'false'.
- * The time complexity of this function is O(n * log(n)) in average case and O(n^2) in worst
- * case since we sort the array using quick sort and then walk the array once. Here 'n' is
- * the number of elements in the array.
+ * The time complexity of this function is O(n * log(n)) in average case and
+ * O(n^2) in worst case since we sort the array using quick sort and then
+ * walk the array once. Here 'n' is the number of elements in the array.
  * The space complexity of this function is O(1).
  */
 bool check_if_an_array_contains_a_pair_with_given_sum_v1 (int *array, int len,
@@ -108,7 +110,7 @@ bool check_if_an_array_contains_a_pair_with_given_sum_v1 (int *array, int len,
 
     /*
      * If either array in NULL or its length is illegal, then return 'false' as
-     * we cannot do anagram computation
+     * we cannot find a pair having sum as target.
      */
     if (!array || (len < 0)) {
         return(false);
@@ -159,6 +161,338 @@ bool check_if_an_array_contains_a_pair_with_given_sum_v1 (int *array, int len,
     return(false);
 }
 
+/*
+ * Number of buckets in the hash table
+ */
+#define MAX_HASH_SIZE (1 << 16)
+
+/*
+ * This hash function returns the lower 16 set bits of the input 'data'.
+ */
+int hash_func (int data)
+{
+    return(data & (MAX_HASH_SIZE - 1));
+}
+
+/*
+ * Data node of the entry stored in the hash table which handles
+ * collisions via chaining.
+ */
+struct data {
+    int original_key;  /* Original key */
+    int index;         /* Index of the original key in the
+                          array */
+    struct data* next; /* The next pointer for the linked
+                          list */
+};
+
+/*
+ * Structure defintion of the hash table.
+ */
+struct hash_table {
+    struct data** buckets; /* Array pointers refrencing the linked
+                              list chains */
+    int size;              /* Total number of buckets */
+};
+
+/*
+ * This function initializes a hash table with a given size.
+ */
+void hash_table_init (struct hash_table *ht, int size)
+{
+    int index;
+
+    /*
+     * If the pointer to the hash table is NULL or its size is
+     * invalid, then return.
+     */
+    if (!ht || (size <= 0)) {
+        return;
+    }
+
+    /*
+     * Allocate 'size' buckets in the hash table
+     */
+    ht->buckets = (struct data**)malloc(sizeof(struct data*) * size);
+
+    /*
+     * If the memory allocation of the buckets fails, then set the size
+     * in the hash table to zero and return from this function.
+     */
+    if (!(ht->buckets)) {
+        ht->size = 0;
+        return;
+    }
+
+    ht->size = size;
+
+    /*
+     * Set all the buckets in the hash table to NULL
+     */
+    for (index = 0; index < size; ++index) {
+        ht->buckets[index] = NULL;
+    }
+}
+
+/*
+ * This function adds a value and the array index in a node in the hash table.
+ * The 'value' and the 'index' are added in the bucket chain, the key for which
+ * is obtained from 'value'. The best case time complexity of this function is
+ * O(1) but the worst case time complexity of this function is O(n) where 'n'
+ * is the number of nodes in a given chain.
+ */
+void hash_table_insert (struct hash_table* ht, int value, int index)
+{
+    int key;
+    struct data* node;
+
+    /*
+     * If the hash table is not valud, then return from this
+     * function
+     */
+    if (!ht) {
+        return;
+    }
+
+    /*
+     * Get the key from the 'value' using the hash function
+     */
+    key = hash_func(value);
+
+    /*
+     * If 'key' is greater than the maximum size of the hash table,
+     * then return from this function
+     */
+    if (key >= ht->size) {
+        return;
+    }
+
+    /*
+     * Allocate the memory for the node that needs to be inserted
+     * in the hash table
+     */
+    node = (struct data*)malloc(sizeof(struct data));
+
+    /*
+     * If the memory allocation fails, then return from this
+     * function
+     */
+    if (!node) {
+        return;
+    }
+
+    /*
+     * Copy the value and the index into the data node
+     */
+    node->original_key = value;
+    node->index = index;
+    node->next = NULL;
+
+    /*
+     * Insert the node in the hash table in the bucket at
+     * position 'key'
+     */
+    if (!(ht->buckets[key])) {
+
+        /*
+         * If the bucket is empty, then point the bucket to
+         * this node
+         */
+        ht->buckets[key] = node;
+    } else {
+
+        /*
+         * If the bucket is not empty, then add the node to
+         * the beginning of the chain in this bucket
+         */
+        node->next = ht->buckets[key];
+        ht->buckets[key] = node;
+    }
+}
+
+/*
+ * This function returns the data node based on the input value from the
+ * hash table. The best case time complexity of this function is O(1) but
+ * the worst case time complexity of this function is O(n) where 'n' is the
+ * number of nodes in a given chain.
+ */
+struct data* hash_table_search (struct hash_table* ht, int data)
+{
+    int key;
+    struct data* node;
+
+    /*
+     * If the hash table is not valid, then return NULL
+     */
+    if (!ht) {
+        return(NULL);
+    }
+
+    /*
+     * Compute the key from the hash function based on the
+     * input data value
+     */
+    key = hash_func(data);
+
+    /*
+     * IF the computed key is greater than the hash table size,
+     * then return NULL from the function
+     */
+    if (key >= ht->size) {
+        return(NULL);
+    }
+
+    /*
+     * Get the reference of the 'keyth' bucket from the hash table
+     */
+    node = ht->buckets[key];
+
+    /*
+     * If the bucket is empty, then the return NULL
+     */
+    if (!node) {
+        return(NULL);
+    }
+
+    /*
+     * Iterate through the chain in the 'keyth' bucket until
+     * we find the node containing 'data'
+     */
+    while (node && (node->original_key != data)) {
+        node = node->next;
+    }
+
+    /*
+     * Return the data node
+     */
+    return(node);
+}
+
+/*
+ * This function walks and frees the hash table buckets and its
+ * chains.
+ */
+void hash_table_free (struct hash_table* ht)
+{
+    struct data* node;
+    struct data* temp;
+    int index;
+
+    /*
+     * If the hash table is not valid and the size of the hash
+     * table is not valid, then we do not need to free anything.
+     * So return from this function.
+     */
+    if (!ht || (ht->size <= 0)) {
+        return;
+    }
+
+    /*
+     * Iterate through each bucket and free the chains
+     */
+    for (index = 0; index < ht->size; ++index) {
+        if (ht->buckets[index]) {
+            node = ht->buckets[index];
+
+            /*
+             * Iterate through the chain and free each node
+             */
+            while (node) {
+                temp = node;
+                node = node->next;
+                temp->next = NULL;
+                free(temp);
+            }
+        }
+    }
+
+    /*
+     * Free the array of hash buckets
+     */
+    free(ht->buckets);
+}
+
+/*
+ * This function returns 'true' if there exists a pair which when added
+ * together gives the 'sum'. If no such pair exists this function returns
+ * 'false'. The approach uses hashing to find if some pair exists whose sum
+ * matches the 'target'. The time complexity of this function is O(n) as we
+ * walk the array once and map the elements in a hash table. Here 'n' is the
+ * number of elements in the array. The space complexity of this function
+ * is O(m), where 'm' is the size of the hash table.
+ */
+bool check_if_an_array_contains_a_pair_with_given_sum_v2
+                                        (int* nums, int numsSize,
+                                         int target)
+{
+    int index;
+    struct hash_table ht;
+    struct data* node;
+
+    /*
+     * If either array in NULL or its length is illegal, then return 'false' as
+     * we cannot find a pair having sum as target.
+     */
+    if (!nums || (numsSize <= 0)) {
+        return(false);
+    }
+
+    /*
+     * Itnitialize a hash table of a large size
+     */
+    hash_table_init(&ht, MAX_HASH_SIZE);
+
+    /*
+     * If the size of the hash table is zero, then return 'false'
+     * from the function.
+     */
+    if (ht.size == 0) {
+        return(false);
+    }
+
+    /*
+     * Iterate through the entire array
+     */
+    for (index = 0; index < numsSize; ++index) {
+
+        /*
+         * Check if there exists a node in the hash table whose
+         * key matches with 'target - nums[index]'
+         */
+        node = hash_table_search(&ht, target - nums[index]);
+        if (node) {
+            /*
+             * If there exists a node with data 'target - nums[index]',
+             * then a pair with sum 'target' is found. So break.
+             */
+            break;
+        } else {
+
+            /*
+             * Otherwise insert the 'value' and index in the hash table
+             */
+            hash_table_insert(&ht, nums[index], index);
+        }
+    }
+
+    if (node) {
+
+        /*
+         * If node is valid, then free the hash table and return
+         * 'true'.
+         */
+        hash_table_free(&ht);
+        return(true);
+    }
+
+    /*
+     * If node is not valid, then free the hash table and return
+     * 'false'.
+     */
+    hash_table_free(&ht);
+    return(false);
+}
+
 int main ()
 {
     /*
@@ -168,6 +502,8 @@ int main ()
     int* array0 = NULL;
     int len0 = 10;
     int sum0 = 10;
+    assert(false == check_if_an_array_contains_a_pair_with_given_sum_v2(
+                                                        array0, len0, sum0));
     assert(false == check_if_an_array_contains_a_pair_with_given_sum_v1(
                                                         array0, len0, sum0));
 
@@ -178,6 +514,8 @@ int main ()
     int array1[] = {10, 90, 5, 15};
     int len1 = -10;
     int sum1 = 10;
+    assert(false == check_if_an_array_contains_a_pair_with_given_sum_v2(
+                                                        array1, len1, sum1));
     assert(false == check_if_an_array_contains_a_pair_with_given_sum_v1(
                                                         array1, len1, sum1));
 
@@ -188,6 +526,8 @@ int main ()
     int array2[] = {10, 90, 5, 15, 100, 85, 95};
     int len2 = sizeof(array2)/sizeof(int);;
     int sum2 = 185;
+    assert(true == check_if_an_array_contains_a_pair_with_given_sum_v2(
+                                                        array2, len2, sum2));
     assert(true == check_if_an_array_contains_a_pair_with_given_sum_v1(
                                                         array2, len2, sum2));
 
@@ -198,6 +538,8 @@ int main ()
     int array3[] = {10, 90, 5, 15, 100, 85, 95};
     int len3 = sizeof(array3)/sizeof(int);;
     int sum3 = 1000;
+    assert(false == check_if_an_array_contains_a_pair_with_given_sum_v2(
+                                                        array3, len3, sum3));
     assert(false == check_if_an_array_contains_a_pair_with_given_sum_v1(
                                                         array3, len3, sum3));
 
@@ -208,6 +550,8 @@ int main ()
     int array4[] = {-10, -90, -5, -15, -100, -85, -95};
     int len4 = sizeof(array4)/sizeof(int);;
     int sum4 = -105;
+    assert(true == check_if_an_array_contains_a_pair_with_given_sum_v2(
+                                                        array4, len4, sum4));
     assert(true == check_if_an_array_contains_a_pair_with_given_sum_v1(
                                                         array4, len4, sum4));
 
@@ -218,16 +562,20 @@ int main ()
     int array5[] = {-10, -90, -5, -15, -100, -85, -95};
     int len5 = sizeof(array5)/sizeof(int);;
     int sum5 = -109;
+    assert(false == check_if_an_array_contains_a_pair_with_given_sum_v2(
+                                                        array5, len5, sum5));
     assert(false == check_if_an_array_contains_a_pair_with_given_sum_v1(
                                                         array5, len5, sum5));
 
     /*
-     * Test 6: Test with an legal array (positive and negative numbers) only and
-     *         length in which the desired sum is found
+     * Test 6: Test with an legal array (positive and negative numbers) only
+     *         and length in which the desired sum is found
      */
     int array6[] = {10, -90, 5, -15, 100, -85, -95};
     int len6 = sizeof(array6)/sizeof(int);;
     int sum6 = 10;
+    assert(true == check_if_an_array_contains_a_pair_with_given_sum_v2(
+                                                        array6, len6, sum6));
     assert(true == check_if_an_array_contains_a_pair_with_given_sum_v1(
                                                         array6, len6, sum6));
 
@@ -238,6 +586,8 @@ int main ()
     int array7[] = {10, -90, 5, -15, 100, -85, -95};
     int len7 = sizeof(array7)/sizeof(int);;
     int sum7 = -1090;
+    assert(false == check_if_an_array_contains_a_pair_with_given_sum_v2(
+                                                        array7, len7, sum7));
     assert(false == check_if_an_array_contains_a_pair_with_given_sum_v1(
                                                         array7, len7, sum7));
 
