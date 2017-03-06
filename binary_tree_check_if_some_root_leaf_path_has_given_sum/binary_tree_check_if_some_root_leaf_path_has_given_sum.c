@@ -42,18 +42,26 @@ struct treenode* makenode (int val)
 /*
  * This function returns 'true' if there is some root to leaf path in binary
  * tree which has sum of all nodes from root to leaf nodes as 'sum'. If there
- * is no such path exists, then this function returns 'false'.
+ * is no such path exists, then this function returns 'false'. The time
+ * complexity of this function is O(n), where 'n' is the number of nodes
+ * in the binary tree. The space complexity of this function is O(n).
  */
 bool check_if_some_root_leaf_path_has_given_sum (struct treenode* root,
                                                  int sum)
 {
     /*
-     * If the leaf node is NULL and then we should check if 'sum'
-     * is zero. If 'sum' is non-zero, then this root to leaf path
-     * doesn't have the path sum as 'sum'
+     * If the root node is NULL, then return 'false'
      */
     if (!root) {
-        return(sum == 0);
+        return(false);
+    }
+
+    /*
+     * If the node is a leaf node and the value in the node is same
+     * as the 'sum', then return 'true' otherwise return 'false'
+     */
+    if (!(root->left) && !(root->right)) {
+        return(sum == root->data);
     }
 
     /*
@@ -70,16 +78,16 @@ bool check_if_some_root_leaf_path_has_given_sum (struct treenode* root,
 int main()
 {
     /*
-     * Test 0: In case root is NULL, and sum is 0 then the tree has a
-     *         path from root to leaf which has a path and sum
+     * Test 0: In case root is NULL, then the tree does not have a
+     *         path from root to leaf which has a path sum
      */
     struct treenode* root0 = NULL;
     int sum0 = 0;
-    assert(true == check_if_some_root_leaf_path_has_given_sum(root0, sum0));
+    assert(false == check_if_some_root_leaf_path_has_given_sum(root0, sum0));
 
     /*
-     * Test 1: In case root is NULL, and sum is non-zero then the tree has a
-     *         path from root to leaf which has a path and sum
+     * Test 1: In case root is NULL, and sum is non-zero then the tree does
+     *         not have a path from root to leaf which has a path sum
      */
     struct treenode* root1 = NULL;
     int sum1 = 10;
@@ -88,7 +96,7 @@ int main()
     /*
      * Test 2: In case root is not NULL, and sum is same as the value in
      *         root node, then the tree has a path from root to leaf which
-     *         has a path and sum
+     *         has a path sum
      */
     struct treenode* root2 = NULL;
     root2 = makenode(10);
@@ -98,7 +106,7 @@ int main()
     /*
      * Test 3: In case root is not NULL, and sum is not same as the value in
      *         root node, then the tree does not have a path from root to leaf
-     *         which has a path and sum
+     *         which has a path sum
      */
     struct treenode* root3 = NULL;
     root3 = makenode(10);
@@ -107,7 +115,7 @@ int main()
 
     /*
      * Test 4: In case root is a big tree, and there is a path from root to
-     *         leaf which has a path and sum
+     *         leaf which has a path sum
      */
     struct treenode* root4 = NULL;
     root4 = makenode(10);
@@ -123,7 +131,7 @@ int main()
 
     /*
      * Test 5: In case root is a big tree, and there is no  path from root to
-     *         leaf which has a path and sum
+     *         leaf which has a path sum
      */
     struct treenode* root5 = NULL;
     root5 = makenode(10);
