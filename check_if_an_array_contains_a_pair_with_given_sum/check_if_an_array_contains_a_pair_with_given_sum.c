@@ -67,7 +67,7 @@ void quicksort (int* array, int low, int high)
 
     /*
      * If array is NULL or 'low' or 'high' are less than zero, then
-     * there is no need to sory the array. So return.
+     * there is no need to sort the array. So return.
      */
     if (!array || (low < 0) || (high < 0)) {
         return;
