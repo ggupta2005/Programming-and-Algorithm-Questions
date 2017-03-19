@@ -1,4 +1,6 @@
-
+/*
+ * This program check if a value exists in a binary search tree.
+ */
 import java.io.*;
 import java.util.*;
 
