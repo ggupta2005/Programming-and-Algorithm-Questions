@@ -132,7 +132,7 @@ int** get_pascals_triangle (int num)
  */
 bool check_if_equal_pascals_triangles (int num, int exp[][num], int** act)
 {
-    int index, inner_index;
+    int index;
 
     /*
      * If either of the Pascal's Triangle are invalid or the
@@ -170,7 +170,6 @@ bool check_if_equal_pascals_triangles (int num, int exp[][num], int** act)
      */
     return(true);
 }
-
 
 int main ()
 {
